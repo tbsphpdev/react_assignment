@@ -12,6 +12,7 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import ClearIcon from '@mui/icons-material/Clear';
 import axios from 'axios';
 import FlightResults from '../pages/FlightResults';
+import PassengerSelector from './PassengerSelector';
 
 const HeroSection = () => {
     const [fromOptions, setFromOptions] = useState([]);
@@ -26,6 +27,7 @@ const HeroSection = () => {
     const [selectedToAirport, setSelectedToAirport] = useState(null);
     const [departureDate, setDepartureDate] = useState('');
     const [returnDate, setReturnDate] = useState('');
+    const [cabinClass, setCabinClass] = useState('economy');
 
     const fetchSuggestions = async (input, setOptions, setLoading) => {
         if (!input || input.length < 2) {
@@ -100,7 +102,6 @@ const HeroSection = () => {
                 const flightQuotes = response.data?.data.flightQuotes;
 
                 if (!flightQuotes) {
-                    console.log('No flight quotes found in the API response.');
                     setResults([]);
                     return;
                 }
@@ -176,6 +177,22 @@ const HeroSection = () => {
                     <MenuItem value="round-trip">Round trip</MenuItem>
                     <MenuItem value="one-way">One-way</MenuItem>
                     <MenuItem value="multi-city">Multi-city</MenuItem>
+                </TextField>
+
+
+                <PassengerSelector />
+
+                <TextField
+                    select
+                    label="Cabin Class"
+                    value={cabinClass}
+                    onChange={(e) => setCabinClass(e.target.value)}
+                    sx={{ minWidth: 150 }}
+                >
+                    <MenuItem value="economy">Economy</MenuItem>
+                    <MenuItem value="premium-economy">Premium Economy</MenuItem>
+                    <MenuItem value="business">Business</MenuItem>
+                    <MenuItem value="first">First Class</MenuItem>
                 </TextField>
 
                 <Autocomplete
